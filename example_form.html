@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Example Form</title>
+  </head>
+  <body>
+    <h1>Example Form</h1><br>
+    <form action="">
+      user id : <input id="id" autocomplete="off" /><br><br>
+      name : <input id="name" autocomplete="off" /><br><br>
+      age : <input id="age" autocomplete="off" /><br><br>
+      <button>Send</button>
+    </form>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      $(function () {
+        var socket = io();
+        // show data from socket
+        socket.on('chat_message', function(msg){
+            console.log(msg);
+            const data = JSON.parse(msg);
+            document.getElementById("id").value = data.id;
+            document.getElementById("name").value = data.name;
+            document.getElementById("age").value = data.age;
+        });
+      });
+
+      // connect api
+      // $.ajax({
+      //   method: "GET",
+      //   url: "user_data",
+      //   data: {}
+      //   })
+      //   .done(function( msg ) {
+      //   console.log(msg);
+      //   const a = msg[0].name;
+      //   document.getElementById("api_cb").innerHTML = a;
+      // });
+    
+    </script>
+  </body>
+</html>

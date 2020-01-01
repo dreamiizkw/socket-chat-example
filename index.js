@@ -9,6 +9,8 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
+
+// ROUtE PAGE
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
@@ -17,12 +19,18 @@ app.get('/room_2', function(req, res){
   res.sendFile(__dirname + '/room_name_2.html');
 });
 
+app.get('/example_form', function(req, res){
+  res.sendFile(__dirname + '/example_form.html');
+});
+
+
 // api send data to client via socket
 app.post('/send_data', (req, res) => {
   const roomName = req.body.roomName
   const message = req.body.message
-  io.sockets.emit('chat_message', message);
-  res.status(200).json('success');
+  const user = users[req.body.userId]
+  io.sockets.emit(roomName,JSON.stringify(user));
+  res.status(200).json(user);
 })
 
 io.on('connection', (socket) => {
